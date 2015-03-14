@@ -76,6 +76,8 @@ We run on multiple platforms:
 * Docker has less overhead
 .image dockerstack.png
 
+* think of processes, not machines
+
 * Developers love it
 
 - Don't need ops to make custom deploy scripts
@@ -102,7 +104,7 @@ Any contributor can run it, no matter their environment
 
 * Images
 
-Image is a base filesystem for a container
+Image is a filesystem snapshot
 
 Images can be saved and shared
 
@@ -145,19 +147,20 @@ node.js application Dockerfile
 
 .code node.df
 
-* Basic commands (phrasing)
-
-* List all running containers
-    docker ps
-
+* Core commands
 
 * Build image
-    docker build .
+    docker build -t captncraig/somewebsite .
 
 Dockerfile + source/files -> image
 
+Install things, move files, set up environment, etc.
+
+
 * Create container instance
     docker run [options] imagename
+
+Start new process from given image
 
 Quite a few things can be configured at run time:
 
