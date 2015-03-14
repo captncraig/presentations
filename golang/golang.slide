@@ -80,7 +80,11 @@ Compiler produces statically linked native binaries. No need to ship a separate 
 - Source control is the package manager:
 	import("github.com/gorilla/websocket")
 
+    go get github.com/gorilla/websocket
 
+downloads master and compiles sources
+
+- Distribute source, not binaries
 
 * No Exceptions*
 
@@ -115,6 +119,8 @@ High Level / Low Level?
     func (f *Foo) DoSomething() int {
     	return f.a + 4
     }
+ 
+* ewww, pointers
 	
 * Interfaces!
 An interface is a set of methods. 
@@ -200,6 +206,10 @@ Two main primitives
 
 .image channels.jpg
 
+    myChan <- 3 //send
+
+    foo := <- myChan //receive
+
 * Concurrent Hello World
 
 .play concurrentHello/main.go /START OMIT/,/END OMIT/
@@ -231,4 +241,4 @@ Two main primitives
 .code workerPool2/main.go /START OMIT/,/END OMIT/
 
 * 
-.image adopt.png
+.image emerging.png
