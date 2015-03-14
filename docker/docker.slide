@@ -81,6 +81,7 @@ We run on multiple platforms:
 * Developers love it
 
 - Don't need ops to make custom deploy scripts
+- Technology choices not constrained by deployment
 - Local environment identical to production
 - Easy to reproduce builds
 - Easy to share with new collaborators
