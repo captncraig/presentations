@@ -5,4 +5,4 @@ ADD . /tmp/stuff
 
 WORKDIR /tmp/stuff
 EXPOSE 3999
-CMD /go/bin/present
+ENTRYPOINT /go/bin/present -http="0.0.0.0:3999" -orighost="presentations.craig.built-this.website"
