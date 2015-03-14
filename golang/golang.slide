@@ -1,0 +1,234 @@
+Why Go is Awesome
+14 March 2015
+
+Craig Peterson
+Site Reliability Engineer, Stack Exchange
+@captncraig
+cpeterson@stackoverflow.coms
+
+
+* Hello, Go!
+
+.play hello/hello.go
+
+* Hello, Web!
+
+.play hello-web/web.go
+
+* Things that make go great:
+
+* Go is fast
+
+- Execution speed
+- Compilation time
+
+* Go is friendly
+
+- Static typing and memory management
+- Feels very dynamic
+- Great standard library
+
+* Go is simple
+
+* 
+Go is a programming language designed by Google to help solve Google's problems.
+
+Google has big problems.
+
+* 
+Go was designed by and for people who write—and read and debug and maintain—large software systems.
+
+Go's purpose is not research into programming language design.
+
+Go's purpose is to make its designers' programming lives better.
+
+* 
+Go feels under-engineered because it only solves real problems.
+
+* Features go does not have (by design):
+
+- Generics
+- Inheritance
+- Method overloading
+- Operator overloading
+- Implicit type conversions
+- Package manager 
+- Exceptions
+
+* Go has great tooling
+
+- Compilation speed is a top-level design consideration
+- Statically compiled binaries with no dependencies
+- Code formatted automatically on save
+
+* Go is cross platform
+
+"Very Cross-Platform out of the box"
+
+Compiler produces statically linked native binaries. No need to ship a separate interpreter, runtime, or VM.
+
+* Packages
+- Everything in a single folder is a package
+- Imported by full path
+- Visibility by casing:
+
+	func Foobar(){...} // Exported/public
+	func foobar(){...} // Private
+
+* Go is open source
+
+- Source control is the package manager:
+	import("github.com/gorilla/websocket")
+
+
+
+* No Exceptions*
+
+Multiple returns allow error value from most functions:
+
+    resp, err := http.Get("http://google.com")
+    if(err != nil){
+       //do something about it
+    }
+
+Forces defensive programming
+
+Go programs have fewer unhandled errors
+
+* Categorizing go:
+
+Object Oriented? 
+Functional?
+High Level / Low Level?
+
+* Probably
+
+* Object oriented?
+
+- can define data types and functions on them:
+
+    type Foo struct{
+       a int
+       b string
+    }
+
+    func (f *Foo) DoSomething() int {
+    	return f.a + 4
+    }
+	
+* Interfaces!
+An interface is a set of methods. 
+
+io.Writer:
+
+	type Writer interface {
+		Write(p []byte) (n int, err error)
+	}
+
+Anything that has those methods satisfies the interface.
+
+	type ConsoleWriter struct{}
+	func (*ConsoleWriter) Write(p []byte) (int,error){
+		fmt.Println(string(p))
+		return len(p), nil
+	}
+
+Implementation does not reference implemented interface.
+
+Duck typing in a static language!
+
+* Inheritance? 
+
+No!
+
+Makes composition very easy, but no direct inheritance
+
+  type Foo struct{
+    a int
+  }
+  type Bar struct{
+    Foo
+  }
+  func main(){
+    x := Bar{}
+    fmt.Println(x.a)
+  }
+
+`"Has-a"` relationships but no `"is-a"`
+
+* Functional?
+
+Sure!
+
+.play func/main.go /START OMIT/,/END OMIT/
+
+* Testing 
+
+.play testing/main.go /START OMIT/,/END OMIT/
+
+* Benchmarking
+
+.play bench/main.go /START OMIT/,/END OMIT/
+
+* Go is concurrent
+
+* Built in to language
+
+Not a library
+
+Two main primitives
+- Goroutines
+- Channels
+
+* Goroutines
+- Single thread of execution
+- *NOT* an OS thread
+- Much lighter
+- Runtime can manage thousands of concurrent goroutines
+- Easy to start:
+	go doSomething()
+	
+- No Callback Soup. Block without fear.
+
+* Don't Communicate by Sharing Memory.
+* Share Memory by communicating.
+	
+* Channels
+- Strongly typed communication mechanism
+- Offer synchronization and safe messaging between goroutines
+- Can optionally act as buffer
+
+.image channels.jpg
+
+* Concurrent Hello World
+
+.play concurrentHello/main.go /START OMIT/,/END OMIT/
+
+* Interactions based on messaging, NOT on thread state.
+
+* Multiple concurrent calls
+
+.play multipleCalls/main.go /START OMIT/,/END OMIT/
+
+* Timeout
+
+.play multipleTO/main.go /START OMIT/,/END OMIT/
+
+* Why not add some more?
+
+.play multiplemultiple/main.go /START OMIT/,/END OMIT/
+
+* Fan-In for central, async logging/stats aggregation
+
+.play concurrentLogging/main.go /START OMIT/,/END OMIT/
+
+* Simple worker pool / concurrency limiter
+
+.code workerPool/main.go /START OMIT/,/END OMIT/
+
+* What if all workers are busy?
+
+.code workerPool2/main.go /START OMIT/,/END OMIT/
+
+* 
+.image adopt.png

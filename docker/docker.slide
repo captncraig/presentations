@@ -1,0 +1,257 @@
+Deploy Anything With Docker
+14 March 2015
+
+Craig Peterson
+Site Reliability Engineer, Stack Exchange
+@captncraig
+cpeterson@stackoverflow.com
+
+* deploying things has gotten more complicated
+
+* 
+
+.image simple.png 200 _
+
+* 
+
+.image complex.png 500 _
+
+* 
+
+.image verycomplex.png 500 _
+
+* What makes deployment so hard?
+
+* 
+
+Each piece of software has it's own:
+
+- prerequites
+- install scripts
+- quirks
+- incompatibilities
+- release schedule
+
+* 
+
+We run on multiple platforms:
+
+- Developer machines (osx/windows)
+- Development Servers (vms)
+- Production Servers (physical linux servers)
+- Public contributors
+- Cloud hosts
+
+* 
+.image mysqltoc.png 500 _
+
+* How can we make this easier?
+
+* Virtual machines! Automation!
+
+- Everyone can deploy a vm
+- Provision with vagrant / puppet / chef for repeatability
+- Share virtual machine image for deployment
+
+* Vms are hard
+
+- Virtualization overhead
+- Vm image size
+- Vm provisioning is slow
+- Multiple competing vm providers / incompatible formats
+
+* Another solution:
+
+* 
+
+.image wiki.png
+.image lxc.png
+
+* 
+.image docker.png
+
+* Virtual machines
+.image vmstack.png
+
+* Docker has less overhead
+.image dockerstack.png
+
+* Developers love it
+
+- Don't need ops to make custom deploy scripts
+- Local environment identical to production
+- Easy to reproduce builds
+- Easy to share with new collaborators
+
+
+* Operations love it
+
+- Don't have to support every possible technology
+- Less fighting deploy scripts
+- Can focus on orchestration and high level architecture
+
+* Perfect for open source
+
+Instead of an install guide, run in docker
+
+Any contributor can run it, no matter their environment
+
+~49,000 github repos added a Dockerfile in 2014
+
+* Docker basics
+
+* Images
+
+Image is a base filesystem for a container
+
+Images can be saved and shared
+
+May be a base os, or build artifact for an application
+
+Each image builds layers on top of its base image
+
+hub.docker.com has over 45,000 public images for free use
+
+* Container
+
+A container is a running instance of an image
+
+Isolated process space, system resources, network
+
+Can run multiple containers from a single image
+
+* Dockerfile
+
+"Recipe" for building an image
+
+Platform independent build file
+
+Common operations:
+
+- Base image
+- Add files
+- Run commands
+- Configure process environment
+
+* mysql Dockerfile
+.code mysql.df
+
+* 
+go application Dockerfile
+
+.code golang.df
+
+node.js application Dockerfile
+
+.code node.df
+
+* Basic commands (phrasing)
+
+* List all running containers
+    docker ps
+
+
+* Build image
+    docker build .
+
+Dockerfile + source/files -> image
+
+* Create container instance
+    docker run [options] imagename
+
+Quite a few things can be configured at run time:
+
+* Environment variables
+
+    -e PORT:3000 -e API_KEY:3453ab32f45bcc -e MYAPP_ENV:PROD
+
+allows configuration that can't be done at build time
+
+* Port mappings
+
+    -p 2020:80
+
+maps and redirects port 2020 on host to 80 inside container
+
+    -P
+
+chooses a port on host to map to each exposed port inside container
+
+* Volumes
+
+Lets you share folders between host and container
+
+    -v /opt/foo.config:/tmp/someApp.config
+
+makes `/opt/foo.config` available inside container as `/tmp/someApp.config` 
+
+Useful for:
+-Insert config files or source code.
+-Provide log file or output directory.
+-Override problematic files.
+
+* Other things
+
+- resource allocations
+- restart policy
+- command line arguments
+- foreground/background
+
+
+* Cool things you can do
+
+* Host multiple websites on a single host
+
+* 
+.image multiplehosts.png
+
+* 
+- run nginx container:
+    docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock jwilder/nginx-proxy
+- run any other containers :
+    docker run -d -P -e VIRTUAL_HOST=www.foo.com myname/mycontainer
+- nginx container automatically sets up port forwarding and reverse proxy as containers are launched or destroyed
+- If multiple containers for a host, will automatically balance load
+
+* 
+.image multiplehosts2.png
+
+* Red/Green deploys
+
+* 
+.image rg0.png
+
+* 
+.image rg1.png
+
+* 
+.image rg2.png
+
+* 
+.image rg3.png
+
+* Containers on build server
+
+* 
+.image jenkins.png
+
+- build container has all compilers for your platform
+- mount source as volume. execute build inside container
+- pull build output out of container to publish
+- no need to install _any_ compilers on build box
+
+* deploy ALL branches to dev server
+
+* docker clustering
+
+* 
+.image cluster.png 500 _
+
+* many competing projects for orchestration
+
+- fleet
+- kubernetes
+- shipyard
+- docker swarm
+
+* Questions?
