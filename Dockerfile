@@ -5,4 +5,4 @@ ADD . /tmp/stuff
 
 WORKDIR /tmp/stuff
 EXPOSE 3999
-ENTRYPOINT /go/bin/present
+CMD /go/bin/present
