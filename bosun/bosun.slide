@@ -56,6 +56,10 @@ All static content compiled and embedded at build time (and checked in).
 
 .link http://github.com/mjibson/esc
 
+Server side is very simple rest api.
+
+Gorilla mux used, but very few features used.
+
 * Concurrency
 
 Many things happening at once
@@ -65,6 +69,7 @@ Many things happening at once
 - Sending notifications (Recurring and chained notifiaction tracking)
 - Proxying and indexing opentsdb traffic (50k+ datapoints per second)
 - Serving web traffic
+- Backing up state to disk
 
 * Database
 
@@ -77,9 +82,10 @@ Not a very good solution, but it is simple.
 * Project management
 
 - 100% Open source
-- All work pubilc on github
+- All work public on github
 - PRs for all features
 - All discussion in public slack room
+- Travis CI validates all PRs for tests, gofmt, lint, and generate.
 
 * Tips for managing a large applications
 
@@ -89,13 +95,15 @@ Not a very good solution, but it is simple.
 - `import _ "net/http/pprof"`
 - View goroutine snapshot when things go sour.
 - Run memory or cpu profile of running application remotely.
+- Bottlenecks are seldom where you expect.
 
 * test more
 
 - bosun not tested well from beginning.
 - Many integration style tests 
-.link https://github.com/bosun-monitor/bosun/blob/master/cmd/bosun/sched/sched_test.go#L36 Linke this.
+.link https://github.com/bosun-monitor/bosun/blob/master/cmd/bosun/sched/sched_test.go#L36 Like this.
 - Go has great test tools, but too little knowledge about them in the community.
+- Features or bug fixes that add tests rarely break unexpectedly.
 
 * Open source is great
 
@@ -106,18 +114,22 @@ Come join us:
 
 .link http://bosun.org/slackInvite.html
 
-* Things we wish were better
+* Log more
 
-* Plugins
+- Hard to diagnose system if you don't know what is going on
+- Logstash / Elasticsearch for indexing logs
+- Custom endpoints to expose important data on demand
+- Performance metrics for critical paths
 
-- scollector can run "external collectors" which emit json
-- wish there was a runtime way to add plugin type things
+* Things go makes difficult
 
-* Stability
+* 
 
-- If any goroutine has unhandled panic, entire app will crash. 
+- Plugins. Scollector relies on external processes for custom or one-off functionality.
 
+- Stability. If any goroutine panics, entire app crashes.
 
+- Libraries. Missing a lot of functionality for things that other platforms have good libraries for. Particularly windows stuff.
 
 
 
