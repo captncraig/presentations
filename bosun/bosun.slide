@@ -16,12 +16,13 @@ gbray@stackoverflow.com
 - Cross platform
 - Portable binaries
 
-* Things Go does super well:
+* Why we Love it
 
 - Deployment
 - Concurrency
 - Reliability
 - Memory footprint
+- Open Source
 
 * Architecture
 
@@ -102,7 +103,21 @@ Not a very good solution, but it is simple.
 - Active slack room for users and developers
 
 Come join us:
+
 .link http://bosun.org/slackInvite.html
+
+* Things we wish were better
+
+* Plugins
+
+- scollector can run "external collectors" which emit json
+- wish there was a runtime way to add plugin type things
+
+* Stability
+
+- If any goroutine has unhandled panic, entire app will crash. 
+
+
 
 
 
