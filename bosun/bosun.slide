@@ -1,5 +1,5 @@
 Bosun Internals
-3 August 2015
+4 August 2015
 
 Craig Peterson
 Developer, Stack Overflow
@@ -20,7 +20,8 @@ gbray@stackoverflow.com
 
 - Deployment
 - Concurrency
-- Open Source
+- Reliability
+- Memory footprint
 
 * Architecture
 
@@ -72,6 +73,13 @@ Many things happening at once
 
 Not a very good solution, but it is simple.
 
+* Project management
+
+- 100% Open source
+- All work pubilc on github
+- PRs for all features
+- All discussion in public slack room
+
 * Tips for managing a large applications
 
 * pprof
@@ -95,5 +103,6 @@ Not a very good solution, but it is simple.
 
 Come join us:
 .link http://bosun.org/slackInvite.html
+
 
 
