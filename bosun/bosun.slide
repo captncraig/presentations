@@ -1,0 +1,99 @@
+Bosun Internals
+3 August 2015
+
+Craig Peterson
+Developer, Stack Overflow
+@captncraig
+cpeterson@stackoverflow.com
+
+Greg Bray
+Site Reliability Engineer, Stack Overflow
+@GBrayUT
+gbray@stackoverflow.com
+
+* Why Go?
+
+- Cross platform
+- Portable binaries
+
+* Things Go does super well:
+
+- Deployment
+- Concurrency
+- Open Source
+
+* Architecture
+
+* Packages
+
+Everything in one repo. We merged scollector and bosun repos into one.
+
+.link https://github.com/bosun-monitor/bosun
+
+Any sharable code in package at root. `"bosun.org/opentsdb"` `"bosun.org/collect"` `"bosun.org/graphite"`
+
+`"bosun.org/cmd/bosun"` and `"bosun.org/cmd/scollector"` are runnable applications.
+
+Application specific code under cmd: `"bosun.org/cmd/bosun/sched"`
+
+* Dependencies
+
+Vender everything.
+
+.link http://github.com/mjibson/party
+
+Yes, we rewrite imports.
+
+* Web App
+
+Angular single page app.
+
+Typescript.
+
+All static content compiled and embedded at build time (and checked in).
+
+.link http://github.com/mjibson/esc
+
+* Concurrency
+
+Many things happening at once
+
+- Running alerts (query opentsdb, apply logic, update state)
+- Pinging known hosts for health checked
+- Sending notifications (Recurring and chained notifiaction tracking)
+- Proxying and indexing opentsdb traffic (50k+ datapoints per second)
+- Serving web traffic
+
+* Database
+
+- Everything lives in memory
+- Backed up to boltdb for persistence
+- gob + gzip
+
+Not a very good solution, but it is simple.
+
+* Tips for managing a large applications
+
+* pprof
+
+- enable it. now.
+- `import _ "net/http/pprof"`
+- View goroutine snapshot when things go sour.
+- Run memory or cpu profile of running application remotely.
+
+* test more
+
+- bosun not tested well from beginning.
+- Many integration style tests 
+.link https://github.com/bosun-monitor/bosun/blob/master/cmd/bosun/sched/sched_test.go#L36 Linke this.
+- Go has great test tools, but too little knowledge about them in the community.
+
+* Open source is great
+
+- 26 contributors
+- Active slack room for users and developers
+
+Come join us:
+.link http://bosun.org/slackInvite.html
+
+
